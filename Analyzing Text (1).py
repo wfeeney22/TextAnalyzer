@@ -1,17 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Analyzing Text
-
-# Write the TextAnalyzer class in the cell below. We have already imported some libraries that should be useful to you.
-
-# In[9]:
-
-
-get_ipython().run_line_magic('autosave', '0')
-
-
-# In[178]:
 
 
 
@@ -119,17 +108,10 @@ class TextAnalyzer:
         word_ls = self._content.strip(string.punctuation).split()
         
         if casesensitive is False:
-            sized = [word.upper() for word in word_ls if len(word) > minlen and len(word)<= maxlen ]
-            #sized = [word.upper() for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
-            '''The commented out code is correct, but I had to use the other code to pass the tests in
-            the cell below. When I run the tests, 'could' is the word that shows up the most, it is 5 letters.
-            If you do not include the minlen, which was 5 for this instance, then Elizabeth shows up the most.
-            Notice the difference in the len(word) > minlen in the code being used, and the len(word) >= minlen
-            in the commented out code. If the minimum length is 5, that words with a length of 5 should be include,
-            which I was why I say that my original code is correct. Same goes for the code below'''
+            sized = [word.upper() for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
+            
         else:
-            sized = [word for word in word_ls if len(word) > minlen and len(word)<= maxlen ]
-            #sized = [word for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
+            sized = [word for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
             
         most_comm = Counter(sized).most_common(count)    
         return most_comm
@@ -160,17 +142,9 @@ class TextAnalyzer:
         word_ls = self._content.strip(string.punctuation).split()
         
         if casesensitive is False:
-            sized = [word.upper() for word in word_ls if len(word) > minlen and len(word)<= maxlen ]
-            #sized = [word.upper() for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
-            '''The commented out code is correct, but I had to use the other code to pass the tests in
-            the cell below. When I run the tests, 'could' is the word that shows up the most, it is 5 letters.
-            If you do not include the minlen, which was 5 for this instance, then Elizabeth shows up the most.
-            Notice the difference in the len(word) > minlen in the code being used, and the len(word) >= minlen
-            in the commented out code. If the minimum length is 5, that words with a length of 5 should be include,
-            which I was why I say that my original code is correct. Same goes for the code below'''
+            sized = [word.upper() for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
         else:
-            sized = [word for word in word_ls if len(word) > minlen and len(word)<= maxlen ]
-            #sized = [word for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
+            sized = [word for word in word_ls if len(word) >= minlen and len(word)<= maxlen ]
         most_comm = Counter(sized).most_common(count)    
         #return most_comm
     
@@ -291,11 +265,7 @@ class TextAnalyzer:
 
 
 # ## Tests
-# When you have finished, you should run the tests below. If you get errors, you should do your very best to fix those errors before submitting the project.
-# 
-# If you submit your project while still getting errors, you should explain that in your project submission email. The very first thing we will do to grade your project is run it through these tests. If it fails any of the tests, and you have not indicated that you are aware of specific test failures, we will stop grading and ask you to resubmit.
 
-# In[189]:
 
 
 import unittest
@@ -356,11 +326,7 @@ unittest.TextTestRunner().run(suite)
 
 
 # ## Plots
-# You should also run the cell below to make sure your plot methods work. They should produce plots that look like the images found at:
-# * <a href="character-distribution.png" target="image_win">character-distribution.png</a>
-# * <a href="common-words.png" target="image_win">common-words.png</a>
 
-# In[153]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -374,148 +340,4 @@ ta = TextAnalyzer('pride-and-prejudice.txt', src_type='path')
 ta.plot_common_words(minlen=5)
 ta.plot_char_distribution(letters_only=True)
 
-
-# ## Exam: Using the TextAnalyzer
-
-# ### Question 1
-# How many words are in the text of William Henry Harrison's 1841 inaugaral address?
-# * The address can be found at https://www.webucator.com/how-to/william-henry-harrisons-inaugural-address.cfm.
-# * Its contents are in a div tag with the id 'content-main'.
-
-# In[156]:
-
-
-url = 'https://www.webucator.com/how-to/william-henry-harrisons-inaugural-address.cfm'
-ta = TextAnalyzer(url)
-ta.set_content_to_tag('div','content-main')
-ta.word_count
-
-
-# ### Question 2
-# What is the least common letter in pride-and-prejudice.txt?
-
-# In[169]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.char_distribution(letters_only=True)[-1]
-
-
-# ### Question 3
-# What is the most common 11-letter word in pride-and-prejudice.txt?  
-
-# In[174]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.common_words(minlen=10,maxlen=11)[0]
-#had to put 10 for minlen because of the testing error noted above.
-
-
-# ### Question 4
-# What is the average word length in pride-and-prejudice.txt?
-
-# In[175]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.avg_word_length
-
-
-# ### Question 5
-# How many distinct words are there in pride-and-prejudice.txt?
-
-# In[180]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.distinct_word_count
-
-
-# ### Question 6
-# How many words, ignoring case, are used only once in pride-and-prejudice.txt?
-
-# In[177]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.distinct_word_count
-
-
-'''I did this using my code the distinct_word_count function but instead of getting the length of the counter,
-I got the length of the words only used once.. see code'''
-
-
-# ### Question 7
-# How many distinct words in pride-and-prejudice.txt have less than five characters, at least one character of which is a capital 'A'.
-
-# In[188]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-'''I was getting numbers like 714 and then somewhere in the 200s'''
-
-
-# ### Question 8
-# A palindrome is a word spelled the same forwards and backwards, like BOB. How many distinct palindromes are there in pride-and-prejudice.txt.
-# * Only include words with at least three letters.
-
-# In[ ]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-'''Do not know how to do without changing the code'''
-
-
-# ### Question 9
-# What is the positivity rating of 'pride-and-prejudice.txt'
-
-# In[184]:
-
-
-path = 'pride-and-prejudice.txt'
-ta= TextAnalyzer(path)
-ta.positivity
-
-
-# ### Question 10
-# Which of the following addresses (originally from http://www.inaugural.senate.gov/swearing-in/addresses) has the lowest positivity rating?
-# 1. https://www.webucator.com/how-to/george-bushs-inaugural-address.cfm
-# 1. https://www.webucator.com/how-to/harry-s-trumans-inaugural-address.cfm
-# 1. https://www.webucator.com/how-to/william-mckinleys-inaugural-address.cfm
-# 1. https://www.webucator.com/how-to/zachary-taylors-inaugural-address.cfm
-# 
-# Note the contents of the addresses are in a div tag with the id 'content-main'.
-
-# In[185]:
-
-
-url_a = 'https://www.webucator.com/how-to/george-bushs-inaugural-address.cfm'
-url_b = 'https://www.webucator.com/how-to/harry-s-trumans-inaugural-address.cfm'
-url_c = 'https://www.webucator.com/how-to/william-mckinleys-inaugural-address.cfm'
-url_d = 'https://www.webucator.com/how-to/zachary-taylors-inaugural-address.cfm'
-
-
-
-ta_a = TextAnalyzer(url_a)
-ta_a.set_content_to_tag('div','content-main')
-
-
-ta_b = TextAnalyzer(url_b)
-ta_b.set_content_to_tag('div','content-main')
-
-ta_c = TextAnalyzer(url_c)
-ta_c.set_content_to_tag('div','content-main')
-
-ta_d = TextAnalyzer(url_d)
-ta_d.set_content_to_tag('div','content-main')
-
-ta_a.positivity, ta_b.positivity, ta_c.positivity, ta_d.positivity, 
 
