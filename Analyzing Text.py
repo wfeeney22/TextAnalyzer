@@ -89,10 +89,12 @@ class TextAnalyzer:
             self._content = ''.join(map(str, div.contents))
         except:
             print('That tag and tag id do not exist as a pair')
+        ''' Uses html tag and tag id to find a body of text and set to the _content variable'''
    
     def reset_content(self):
         self._content = self._orig_content
         #return self._content
+        ''' uses orig content to restore content to its original value'''
    
     def _words(self, casesensitive=False):
         if casesensitive is False:
@@ -102,7 +104,7 @@ class TextAnalyzer:
         words = [word.strip(string.punctuation) for word in words]
         
         _words = words
-   
+   '''splits and strips punctuation from all of the words in content, creating a list of each individual word'''
     
     def common_words(self, minlen=1, maxlen=100, count=10, casesensitive=False):
         word_ls = self._content.strip(string.punctuation).split()
@@ -115,7 +117,8 @@ class TextAnalyzer:
             
         most_comm = Counter(sized).most_common(count)    
         return most_comm
-   
+   '''creates a list of the most common words. the minlen and maxlen parameters determine the length of each 
+   word to be considered for the list, and the count parameter determines how many words to include in the new list'''
 
     def char_distribution(self, casesensitive=False, letters_only=False):
         leto = re.compile('[A-Za-z]')
@@ -136,7 +139,8 @@ class TextAnalyzer:
         ord_dist = c.most_common(len(char_pool))
         
         return(ord_dist)
-         
+   '''counts the number of occurences of each character, if casesensitive is false it then "A" and "a" would be 
+   considered the same, if letters only is false then numbers and punctuation are also counted as characters'''
    
     def plot_common_words(self, minlen=1, maxlen=100, count=10, casesensitive=False):
         word_ls = self._content.strip(string.punctuation).split()
@@ -160,6 +164,9 @@ class TextAnalyzer:
 
         word_plot.set_ylabel('# of Uses', fontsize=20)
         word_plot.set_xlabel('Word', fontsize=20)
+   '''This plots the common words, taking the same parameters as the common_words function above. It also uses a bit
+   of the same code'''
+   
    
     def plot_char_distribution(self, casesensitive=False, letters_only=False):
         leto = re.compile('[A-Za-z]')
@@ -191,7 +198,8 @@ class TextAnalyzer:
 
         char_plot.set_ylabel('Frequency', fontsize=20)
         char_plot.set_xlabel('Character', fontsize=20)
-    
+    '''This plots the distribution of each character, taking the same parameters as the char_distribution function above. 
+    It also uses a bit of the same code'''
     
     @property
     def avg_word_length(self):
@@ -201,13 +209,14 @@ class TextAnalyzer:
         avg = sum(len_words)/len(len_words)
         avg_word_length = float("{:.2f}".format(avg))
         return avg_word_length
-  
+   '''returns the average word length of the content as a float, to the hundreths place'''
        
     
     @property
     def word_count(self):
         word_count = len(str(self._content).split())
         return word_count
+   '''counts the words in _content'''
     
     @property
     def distinct_word_count(self):
@@ -226,6 +235,7 @@ class TextAnalyzer:
                 distinct_words.append(word)
         #return len(distinct_words)
         return len(counts)
+      '''returns the number of words that only appear once in the content'''
               
     #original
     @property
@@ -262,10 +272,12 @@ class TextAnalyzer:
         #print(tally)
         score = round( tally / self.word_count * 1000)
         return score
-
+'''compares words in content to a list of words in a separate file, when a word from content matches a word in positive.txt
+the positivity tally in incremented by one, when a word matches another in negative.txt the tally is decremented. score
+is computed at the end'''
 
 # ## Tests
-
+'''Tests to make sure that all of the above code worked properly'''
 
 
 import unittest
